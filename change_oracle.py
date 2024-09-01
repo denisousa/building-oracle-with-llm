@@ -2,6 +2,11 @@ import pandas as pd
 import math
 
 df = pd.read_csv("clones.csv")
+class_counts = df['classification'].value_counts()
+with open("class_counts.txt", "w") as f:
+    for classification, count in class_counts.items():
+        f.write(f"Classification: {classification} - Count: {count}\n")
+
 #df = df[df['classification'] != 'AC']
 df = df[~df['classification'].isin(['AC', 'BP', 'IC'])]
 
@@ -16,9 +21,5 @@ for classification in df['classification'].unique():
 mini_clones_df.to_csv("mini_clones.csv", index=False)
 print("mini_clones.csv has been created successfully.")
 
-class_counts = df['classification'].value_counts()
-with open("class_counts.txt", "w") as f:
-    for classification, count in class_counts.items():
-        f.write(f"Classification: {classification} - Count: {count}\n")
 
 
