@@ -1,9 +1,12 @@
 from file_operations import read_file
+from metrics import generate_metrics
 from classify_operations import classify_prediction, string_to_bool
 from prompts import system_prompt, get_prompt_to_compare_two_codes
 from llm_operations import get_client_azure_openai
+from file_operations import export_results
 from time_calc import time_it
 from time import sleep
+import pandas as pd
 
 @time_it
 def compare_oracle_with_gpt(timestamp, oracle_df, cut_stackoverflow_path, qualitas_corpus_path):
@@ -33,7 +36,7 @@ def compare_oracle_with_gpt(timestamp, oracle_df, cut_stackoverflow_path, qualit
         try:
             gpt_result = string_to_bool(gpt_result)
         except:
-            open(f'results/{timestamp}/error.txt', 'w').write(f'index: {index} - {gpt_result}\n')
+            open(f'results/{timestamp}/error.txt', 'a').write(f'index: {index} - {gpt_result}\n')
             continue
 
         oracle_result = True
@@ -49,8 +52,10 @@ def compare_oracle_with_gpt(timestamp, oracle_df, cut_stackoverflow_path, qualit
 
         comparative_result.update(row.to_dict())
         results.append(comparative_result)
-        # if index == 5:
-        #     return results
+
+        results_df = pd.DataFrame(results)
+        export_results(timestamp, results_df)
+        generate_metrics(timestamp, results)
 
     return results
         

@@ -1,5 +1,10 @@
 import os
 
+def create_result_directory(timestamp):
+    output_dir = f'results/{timestamp}'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
 def read_file(directory_path, file_name, start_line, end_line):
     full_path = os.path.join(directory_path, file_name)
     if os.path.exists(full_path):
@@ -28,9 +33,6 @@ def write_metrics(output_txt_path, all_metrics):
 
 def export_results(timestamp, results_df):
     output_dir = f'results/{timestamp}'
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
     output_excel_path = os.path.join(output_dir, 'oracle_results.xlsx')
     output_csv_path = os.path.join(output_dir, 'oracle_results.csv')
     output_json_path = os.path.join(output_dir, 'oracle_results.json')

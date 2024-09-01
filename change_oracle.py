@@ -14,7 +14,7 @@ mini_clones_df = pd.DataFrame()
 
 for classification in df['classification'].unique():
     class_df = df[df['classification'] == classification]
-    sample_size = math.ceil(0.05 * len(class_df)) # % of population
+    sample_size = math.ceil(0.02 * len(class_df)) # % of population
     sample_df = class_df.sample(n=sample_size)
     mini_clones_df = pd.concat([mini_clones_df, sample_df])
 
