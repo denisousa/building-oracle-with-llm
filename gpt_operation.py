@@ -55,7 +55,9 @@ def compare_oracle_with_gpt(timestamp, oracle_df, cut_stackoverflow_path, qualit
 
         results_df = pd.DataFrame(results)
         export_results(timestamp, results_df)
-        generate_metrics(timestamp, results)
+
+        if index >= 10:
+            generate_metrics(timestamp, results)
 
     return results
         

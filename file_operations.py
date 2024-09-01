@@ -29,8 +29,6 @@ def write_metrics(output_txt_path, all_metrics):
         f.write(f"True Negatives (TN): {all_metrics['true_negatives']}\n")
         f.write(f"False Negatives (FN): {all_metrics['false_negatives']}\n")
 
-        print(f"Summary metrics have been exported to {output_txt_path}")
-
 def export_results(timestamp, results_df):
     output_dir = f'results/{timestamp}'
     output_excel_path = os.path.join(output_dir, 'oracle_results.xlsx')
@@ -40,6 +38,3 @@ def export_results(timestamp, results_df):
     results_df.to_excel(output_excel_path, index=False)
     results_df.to_csv(output_csv_path, index=False, encoding='utf-8')
     results_df.to_json(output_json_path, orient='records', indent=4, force_ascii=False)
-
-    print(f"Results have been exported to {output_excel_path}, {output_csv_path}, and {output_json_path}")
-
