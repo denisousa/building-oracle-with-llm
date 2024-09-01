@@ -26,14 +26,18 @@ def write_metrics(output_txt_path, all_metrics):
 
         print(f"Summary metrics have been exported to {output_txt_path}")
 
-def export_results(results_df):
-    output_excel_path = 'oracle_results.xlsx'
+def export_results(timestamp, results_df):
+    output_dir = f'results/{timestamp}'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    output_excel_path = os.path.join(output_dir, 'oracle_results.xlsx')
+    output_csv_path = os.path.join(output_dir, 'oracle_results.csv')
+    output_json_path = os.path.join(output_dir, 'oracle_results.json')
+
     results_df.to_excel(output_excel_path, index=False)
-
-    output_csv_path = 'oracle_results.csv'
     results_df.to_csv(output_csv_path, index=False, encoding='utf-8')
-
-    output_json_path = 'oracle_results.json'
     results_df.to_json(output_json_path, orient='records', indent=4, force_ascii=False)
 
     print(f"Results have been exported to {output_excel_path}, {output_csv_path}, and {output_json_path}")
+

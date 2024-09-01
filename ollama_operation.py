@@ -1,13 +1,11 @@
 from file_operations import read_file
 from classify_operations import classify_prediction, string_to_bool
 from prompts import system_prompt, get_prompt_to_compare_two_codes
-from llm_operations import get_client_azure_openai
 from time_calc import time_it
 from time import sleep
 
 @time_it
-def compare_oracle_with_gpt(timestamp, oracle_df, cut_stackoverflow_path, qualitas_corpus_path):
-    client = get_client_azure_openai()
+def compare_oracle_with_gpt(oracle_df, cut_stackoverflow_path, qualitas_corpus_path):
     results = []
 
     for index, row in oracle_df.iterrows():
@@ -33,10 +31,10 @@ def compare_oracle_with_gpt(timestamp, oracle_df, cut_stackoverflow_path, qualit
         try:
             gpt_result = string_to_bool(gpt_result)
         except:
-            open(f'results/{timestamp}/error.txt', 'w').write(f'index: {index} - {gpt_result}\n')
+            open('error.txt', 'w').write(f'index: {index} - {gpt_result}\n')
             continue
 
-        oracle_result = True
+        oracle_result = True if row['classification'] in ['QS', 'EX', 'UD'] else False
         class_result = classify_prediction(oracle_result, gpt_result)
 
         comparative_result = {

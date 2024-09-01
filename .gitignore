@@ -140,6 +140,9 @@ venv.bak/
 # mkdocs documentation
 /site
 
+oracle_results_updated.csv
+mini_clones.csv
+/results/*.*
 /projects
 oracle_results.*
 results_summary.txt
