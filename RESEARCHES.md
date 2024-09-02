@@ -1,6 +1,5 @@
+String:
 code clone and LLM and GPT
-
-
 
 Assessing the Code Clone Detection Capability of Large Language Models
 Clone Detection Capability of Large Language Models. In 2024 4th International Conference on Code Quality (ICCQ) (pp. 75-83). IEEE.

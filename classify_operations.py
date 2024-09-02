@@ -11,9 +11,11 @@ def classify_prediction(oracle_value, gpt_value):
         return "Invalid Input"
     
 def string_to_bool(s):
-    if s == "True":
+    if "True" in s and "False" in s:
+        raise ValueError("Invalid input: the string must be 'True' or 'False'")
+    elif "True" in s:
         return True
-    elif s == "False":
+    elif "False" in s:
         return False
     else:
         raise ValueError("Invalid input: the string must be 'True' or 'False'")

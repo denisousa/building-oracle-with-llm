@@ -1,9 +1,15 @@
 import os
+from datetime import datetime
 
-def create_result_directory(timestamp):
-    output_dir = f'results/{timestamp}'
+def create_result_directory(model_name):
+    timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    output_dir = f'{timestamp}-{model_name}'
+    output_dir = output_dir.replace('/', '_')
+    output_dir = f'results/{output_dir}'
+    
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+    return output_dir
 
 def read_file(directory_path, file_name, start_line, end_line):
     full_path = os.path.join(directory_path, file_name)
@@ -29,11 +35,10 @@ def write_metrics(output_txt_path, all_metrics):
         f.write(f"True Negatives (TN): {all_metrics['true_negatives']}\n")
         f.write(f"False Negatives (FN): {all_metrics['false_negatives']}\n")
 
-def export_results(timestamp, results_df):
-    output_dir = f'results/{timestamp}'
-    output_excel_path = os.path.join(output_dir, 'oracle_results.xlsx')
-    output_csv_path = os.path.join(output_dir, 'oracle_results.csv')
-    output_json_path = os.path.join(output_dir, 'oracle_results.json')
+def export_results(output_folder, results_df):
+    output_excel_path = os.path.join(output_folder, 'oracle_results.xlsx')
+    output_csv_path = os.path.join(output_folder, 'oracle_results.csv')
+    output_json_path = os.path.join(output_folder, 'oracle_results.json')
 
     results_df.to_excel(output_excel_path, index=False)
     results_df.to_csv(output_csv_path, index=False, encoding='utf-8')

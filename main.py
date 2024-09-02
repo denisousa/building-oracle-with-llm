@@ -1,17 +1,22 @@
 from gpt_operation import compare_oracle_with_gpt
-from file_operations import create_result_directory
+from llm_operations import get_client_lm_studio
 import pandas as pd
-from datetime import datetime
 
-timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-create_result_directory(timestamp)
-
-oracle_csv = 'mini_clones.csv'
+oracle_csv = 'clones.csv'
 cut_stackoverflow_path = 'projects/stackoverflow_formatted/'
 qualitas_corpus_path = 'projects/qualitas_corpus_clean/'
 
 oracle_df = pd.read_csv(oracle_csv)
+oracle_df = oracle_df[~oracle_df['classification'].isin(['AC', 'BP', 'IC'])]
 print('oracle rows:', oracle_df.shape[0])
 print('oracle columns:', oracle_df.shape[1])
 
-compare_oracle_with_gpt(timestamp, oracle_df, cut_stackoverflow_path, qualitas_corpus_path)
+execution_context = {
+    'client': get_client_lm_studio,
+    'model': "TheBloke/CodeLlama-7B-Instruct-GGUF"
+}
+
+compare_oracle_with_gpt(execution_context,
+                        oracle_df,
+                        cut_stackoverflow_path,
+                        qualitas_corpus_path)

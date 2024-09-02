@@ -1,7 +1,7 @@
 from sklearn.metrics import precision_score, accuracy_score, f1_score, confusion_matrix
 from file_operations import write_metrics
 
-def generate_metrics(timestamp, results):
+def generate_metrics(output_folder, results):
     try:
         oracle_results = [result['oracle_result'] for result in results]
         gpt_results = [result['gpt_result'] for result in results]
@@ -22,7 +22,7 @@ def generate_metrics(timestamp, results):
         }
 
         try:
-            write_metrics(f'results/{timestamp}/results_summary.txt', all_metrics)
+            write_metrics(f'{output_folder}/results_summary.txt', all_metrics)
         except:
             print('Error: Too little data for the confusion matrix')
     except:
