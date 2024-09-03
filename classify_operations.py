@@ -40,8 +40,11 @@ def get_llm_response_has_true_or_false(has_hallucination, response: str) -> bool
     
     if "True" in response:
         return True
+    
     if "False" in response:
         return False
+    
+    return classify_sentence(response)
 
 def get_llm_response_has_clone_type(has_hallucination, response: str):
     if has_hallucination:
@@ -80,3 +83,37 @@ def check_hallucination(response: str):
     check1 = has_true_or_false_hallucination(response)
     check2 = has_clone_type_hallucination(response)
     return check1, check2
+
+
+def classify_sentence(sentence):
+    affirmative_patterns = [
+        r"(yes|certainly|definitely|indeed|surely|they are)\b.*(clones|identical|the same)",
+        r"\b(are|is)\b.*(clones|identical|the same)"
+    ]
+
+    negative_patterns = [
+        r"\b(no|not|aren't|isn't|cannot|can't|never)\b.*(clones|identical|the same)",
+        r"\b(none|neither|different|distinct|unique)\b"
+    ]
+
+    for pattern in affirmative_patterns:
+        if re.search(pattern, sentence, re.IGNORECASE):
+            return True
+    
+    for pattern in negative_patterns:
+        if re.search(pattern, sentence, re.IGNORECASE):
+            return False
+    
+    return ""
+
+sentences = [
+    "Yes, they are definitely clones.",
+    "No, these are not clones.",
+    "They aren't clones at all.",
+    "These items are different and unique."
+]
+
+for sentence in sentences:
+    print(f"Sentence: {sentence}")
+    print(f"Classification: {classify_sentence(sentence)}")
+    print()
