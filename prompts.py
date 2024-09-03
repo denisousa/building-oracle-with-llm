@@ -41,9 +41,14 @@ True
 '''
 
 def get_prompt_to_compare_two_codes(code1, code2):
-    return f'''Are these two codes clones of each other? True or False?
+    return f'''
+    Are these two codes clones of each other? True or False?
+    Let me know their type, whether it is a Type-I, Type-II, Type-III or Type-IV clone.
     Code1: \n{code1}
     Code2: \n{code2}
+
+    Your answer should be succinct, for example:
+    True, they are Type-1 clones;
     '''
 
 def get_chat_prompt_with_example(user_prompt):

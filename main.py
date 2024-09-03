@@ -1,5 +1,5 @@
-from gpt_operation import compare_oracle_with_gpt
-from llm_operations import get_client_lm_studio
+from llm_operations import compare_oracle_with_gpt
+from llm_connection import get_client_lm_studio
 import pandas as pd
 
 oracle_csv = 'clones.csv'
